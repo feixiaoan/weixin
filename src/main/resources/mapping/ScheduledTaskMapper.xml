@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjl.weixin.mapper.ScheduledTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.gjl.weixin.entity.ScheduledTask" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="task_key" property="taskKey" jdbcType="VARCHAR" />
+    <result column="task_desc" property="taskDesc" jdbcType="VARCHAR" />
+    <result column="task_cron" property="taskCron" jdbcType="VARCHAR" />
+    <result column="task_flag" property="taskFlag" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <select id="findTaskByKey" resultMap="BaseResultMap">
+    select * from scheduledtask where task_key = #{taskName}
+  </select>
+  <select id="findAllByCondition" resultMap="BaseResultMap">
+    select * from scheduledtask
+    <where>
+      <if test="taskKey != null and taskKey!=''">
+        AND task_key like CONCAT('%',#{taskKey},'%')
+      </if>
+    </where>
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+    select * from scheduledtask
+  </select>
+  <insert id="insert" parameterType="com.gjl.weixin.entity.ScheduledTask" >
+    insert into scheduledtask (id, task_key, task_desc, 
+      task_cron, task_flag, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{taskKey,jdbcType=VARCHAR}, #{taskDesc,jdbcType=VARCHAR}, 
+      #{taskCron,jdbcType=VARCHAR}, #{taskFlag,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjl.weixin.entity.ScheduledTask" >
+    insert into scheduledtask
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="taskKey != null" >
+        task_key,
+      </if>
+      <if test="taskDesc != null" >
+        task_desc,
+      </if>
+      <if test="taskCron != null" >
+        task_cron,
+      </if>
+      <if test="taskFlag != null" >
+        task_flag,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="taskKey != null" >
+        #{taskKey,jdbcType=VARCHAR},
+      </if>
+      <if test="taskDesc != null" >
+        #{taskDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="taskCron != null" >
+        #{taskCron,jdbcType=VARCHAR},
+      </if>
+      <if test="taskFlag != null" >
+        #{taskFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

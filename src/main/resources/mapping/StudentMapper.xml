@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjl.weixin.mapper.StudentMapper" >
+  <resultMap id="BaseResultMap" type="com.gjl.weixin.entity.Student" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="card_id" property="cardId" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="employee_id" property="employeeId" jdbcType="VARCHAR" />
+    <result column="e_name" property="eName" jdbcType="VARCHAR" />
+    <result column="e_sex" property="eSex" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="pxclass_id" property="pxclassId" jdbcType="BIGINT" />
+  </resultMap>
+
+  <resultMap id="BaseResultMapDto" type="com.gjl.weixin.dto.StudentDto" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="card_id" property="cardId" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="employee_id" property="employeeId" jdbcType="VARCHAR" />
+    <result column="e_name" property="eName" jdbcType="VARCHAR" />
+    <result column="e_sex" property="eSex" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="pxclass_id" property="pxclassId" jdbcType="BIGINT" />
+
+  </resultMap>
+  <insert id="insert" parameterType="com.gjl.weixin.entity.Student" >
+    insert into student (id, card_id, department, 
+      education, employee_id, e_name, 
+      e_sex, phone, pxclass_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{cardId,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
+      #{education,jdbcType=VARCHAR}, #{employeeId,jdbcType=VARCHAR}, #{eName,jdbcType=VARCHAR}, 
+      #{eSex,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{pxclassId,jdbcType=BIGINT}
+      )
+  </insert>
+
+  <update id="updateSelective" parameterType="com.gjl.weixin.entity.Student">
+    update student
+    <trim prefix="set" suffixOverrides=",">
+    <if test="cardId != null">card_id=#{cardId},</if>
+      <if test="department != null">department=#{department},</if>
+      <if test="education != null">education=#{education},</if>
+      <if test="employeeId != null">employee_id=#{employeeId},</if>
+      <if test="eName != null">e_name=#{eName},</if>
+      <if test="eSex != null">e_sex=#{eSex},</if>
+      <if test="phone != null">phone=#{phone},</if>
+      <if test="pxclassId != null">pxclass_id=#{pxclassId}</if>
+    </trim>
+    where id=#{id}
+  </update>
+  <insert id="insertSelective" parameterType="com.gjl.weixin.entity.Student" >
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cardId != null" >
+        card_id,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="employeeId != null" >
+        employee_id,
+      </if>
+      <if test="eName != null" >
+        e_name,
+      </if>
+      <if test="eSex != null" >
+        e_sex,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="pxclassId != null" >
+        pxclass_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="cardId != null" >
+        #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeId != null" >
+        #{employeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="eName != null" >
+        #{eName,jdbcType=VARCHAR},
+      </if>
+      <if test="eSex != null" >
+        #{eSex,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="pxclassId != null" >
+        #{pxclassId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="login" resultMap="BaseResultMap">
+    select * from student where e_name = #{userName} and card_id = #{password};
+  </select>
+
+  <select id="findAll" resultMap="BaseResultMapDto">
+    SELECT s.id,s.card_id,s.department,s.education,s.employee_id,s.
+e_name,s.e_sex,s.phone,p.class_name from student s JOIN pxclass p on s.pxclass_id=p.id
+  </select>
+
+  <resultMap id="qwarfq" type="com.gjl.weixin.entity.Student" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="card_id" property="cardId" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="employee_id" property="employeeId" jdbcType="VARCHAR" />
+    <result column="e_name" property="eName" jdbcType="VARCHAR" />
+    <result column="e_sex" property="eSex" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="pxclass_id" property="pxclassId" jdbcType="BIGINT" />
+    <association  property="pxclass"  javaType="com.gjl.weixin.entity.Pxclass" select="com.gjl.weixin.mapper.PxclassMapper.findPxclassById" column="pxclass_id">
+    </association >
+  </resultMap>
+
+  <select id="findAll2" resultMap="qwarfq">
+    select * from Student
+  </select>
+
+  <select id="findAllStudent" resultMap="qwarfq">
+    select * from Student
+    <where>
+      <if test="eName != null and eName!=''">
+        AND e_name like CONCAT('%',#{eName},'%')
+      </if>
+      <if test="cardId != null and cardId!=''">
+        AND card_id like CONCAT('%',#{cardId},'%')
+      </if>
+      <if test="employeeId != null and employeeId!=''">
+        AND employee_id like CONCAT('%',#{employeeId},'%')
+      </if>
+    </where>
+  </select>
+
+
+
+  <update id="save">
+
+  </update>
+</mapper>

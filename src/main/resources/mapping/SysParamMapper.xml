@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjl.weixin.mapper.SysParamMapper" >
+  <resultMap id="BaseResultMap" type="com.gjl.weixin.entity.SysParam" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="syscode" property="syscode" jdbcType="VARCHAR" />
+    <result column="sysname" property="sysname" jdbcType="VARCHAR" />
+    <result column="sysvalue" property="sysvalue" jdbcType="VARCHAR" />
+    <result column="enabled" property="enabled" jdbcType="VARCHAR" />
+    <result column="systype" property="systype" jdbcType="VARCHAR" />
+    <result column="sysdetails" property="sysdetails" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.gjl.weixin.entity.SysParam" >
+    insert into sysparam (id, sysCode, sysName, 
+      sysValue, enabled, sysType, 
+      sysdetails)
+    values (#{id,jdbcType=INTEGER}, #{syscode,jdbcType=VARCHAR}, #{sysname,jdbcType=VARCHAR}, 
+      #{sysvalue,jdbcType=VARCHAR}, #{enabled,jdbcType=VARCHAR}, #{systype,jdbcType=VARCHAR}, 
+      #{sysdetails,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjl.weixin.entity.SysParam" >
+    insert into sysparam
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="syscode != null" >
+        sysCode,
+      </if>
+      <if test="sysname != null" >
+        sysName,
+      </if>
+      <if test="sysvalue != null" >
+        sysValue,
+      </if>
+      <if test="enabled != null" >
+        enabled,
+      </if>
+      <if test="systype != null" >
+        sysType,
+      </if>
+      <if test="sysdetails != null" >
+        sysdetails,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="syscode != null" >
+        #{syscode,jdbcType=VARCHAR},
+      </if>
+      <if test="sysname != null" >
+        #{sysname,jdbcType=VARCHAR},
+      </if>
+      <if test="sysvalue != null" >
+        #{sysvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null" >
+        #{enabled,jdbcType=VARCHAR},
+      </if>
+      <if test="systype != null" >
+        #{systype,jdbcType=VARCHAR},
+      </if>
+      <if test="sysdetails != null" >
+        #{sysdetails,jdbcType=VARCHAR},
+      </if>
+    </trim>
+
+  </insert>
+
+  <!--<update id="save" parameterType="com.gjl.weixin.entity.SysParam">
+    update sysparam
+    <trim prefix="set" suffixOverrides=",">
+      <if test="id != null">id=#{id},</if>
+      <if test="syscode != null">syscode=#{syscode},</if>
+      <if test="sysname != null">sysname=#{sysname},</if>
+      <if test="sysvalue != null">sysvalue=#{sysvalue},</if>
+      <if test="enabled != null">enabled=#{enabled},</if>
+      <if test="systype != null">systype=#{systype},</if>
+      <if test="sysdetails != null">sysdetails=#{sysdetails}</if>
+    </trim>
+    where id=#{id}
+    </update>-->
+  <select id="findAllSysParam" resultMap="BaseResultMap">
+    select * from sysParam
+    <where>
+      <if test="syscode != null and syscode!=''">
+        AND syscode like CONCAT('%',#{syscode},'%')
+      </if>
+      <if test="sysname != null and sysname!=''">
+        AND sysname like CONCAT('%',#{sysname},'%')
+      </if>
+    </where>
+  </select>
+</mapper>

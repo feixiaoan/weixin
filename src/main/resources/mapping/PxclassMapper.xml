@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjl.weixin.mapper.PxclassMapper" >
+  <resultMap id="BaseResultMap" type="com.gjl.weixin.entity.Pxclass" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="class_person" property="classPerson" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+    <result column="profession_person" property="professionPerson" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="teache_person" property="teachePerson" jdbcType="VARCHAR" />
+    <result column="day" property="day" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.gjl.weixin.entity.Pxclass" >
+    insert into pxclass (id, category, class_name, 
+      class_person, end_time, number, 
+      profession_person, start_time, teache_person, 
+      day)
+    values (#{id,jdbcType=BIGINT}, #{category,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, 
+      #{classPerson,jdbcType=VARCHAR}, #{endTime,jdbcType=TIMESTAMP}, #{number,jdbcType=VARCHAR}, 
+      #{professionPerson,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{teachePerson,jdbcType=VARCHAR}, 
+      #{day,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjl.weixin.entity.Pxclass" >
+    insert into pxclass
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="category != null" >
+        category,
+      </if>
+      <if test="className != null" >
+        class_name,
+      </if>
+      <if test="classPerson != null" >
+        class_person,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="professionPerson != null" >
+        profession_person,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="teachePerson != null" >
+        teache_person,
+      </if>
+      <if test="day != null" >
+        day,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="classPerson != null" >
+        #{classPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="professionPerson != null" >
+        #{professionPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="teachePerson != null" >
+        #{teachePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="day != null" >
+        #{day,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="findPxclassById" resultMap="BaseResultMap">
+    select * from pxclass where id=#{id}
+  </select>
+
+  <select id="findAllClass" resultMap="BaseResultMap">
+    select * from pxclass
+    <where>
+      <if test="className != null and className!=''">
+        AND class_name like CONCAT('%',#{className},'%')
+      </if>
+      <if test="professionPerson != null and professionPerson!=''">
+        AND profession_person like CONCAT('%',#{professionPerson},'%')
+      </if>
+      <if test="teachePerson != null and teachePerson!=''">
+        AND teache_person like CONCAT('%',#{teachePerson},'%')
+      </if>
+      <if test="classPerson != null and classPerson!=''">
+        AND class_person like CONCAT('%',#{classPerson},'%')
+      </if>
+    </where>
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+     select * from pxclass
+  </select>
+
+  <select id="findPxclassByName" resultMap="BaseResultMap">
+    select * from pxclass where class_name=#{pxclassName}
+  </select>
+
+  <update id="save">
+    update pxclass
+    <trim prefix="set" suffixOverrides=",">
+      <if test="category != null">category=#{category},</if>
+      <if test="className != null">class_name=#{className},</if>
+      <if test="classPerson != null">class_person=#{classPerson},</if>
+      <if test="endTime != null">end_time=#{endTime},</if>
+      <if test="number != null">number=#{number},</if>
+      <if test="professionPerson != null">profession_person=#{professionPerson},</if>
+      <if test="startTime != null">start_time=#{startTime},</if>
+      <if test="teachePerson != null">teache_person=#{teachePerson},</if>
+      <if test="day != null">day=#{day}</if>
+    </trim>
+    where id=#{id}
+  </update>
+</mapper>

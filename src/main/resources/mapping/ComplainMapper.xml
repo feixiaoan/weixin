@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjl.weixin.mapper.ComplainMapper" >
+  <resultMap id="BaseResultMap" type="com.gjl.weixin.entity.Complain" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="userId" property="userId" jdbcType="INTEGER" />
+    <result column="complain_time" property="complainTime" jdbcType="DATE" />
+    <result column="complain_subject" property="complainSubject" jdbcType="VARCHAR" />
+    <result column="complain_reason" property="complainReason" jdbcType="VARCHAR" />
+    <result column="complain_video" property="complainVideo" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMap" type="com.gjl.weixin.dto.ComplainDto" >
+    <result column="e_name" property="userName" jdbcType="VARCHAR" />
+    <result column="complain_time" property="complainTime" jdbcType="DATE" />
+    <result column="complain_subject" property="complainSubject" jdbcType="VARCHAR" />
+    <result column="complain_reason" property="complainReason" jdbcType="VARCHAR" />
+    <result column="complain_video" property="complainVideo" jdbcType="VARCHAR" />
+  </resultMap>
+  <update id="updateComplainById">
+    update complain
+    set complain_video= "1"
+    where id=#{id}
+  </update>
+
+  <select id="findAll" resultMap="BaseResultMap">
+    select * from complain where complain_video = '0'
+  </select>
+
+  <select id="findAllByAdmin" resultMap="ResultMap">
+    select C.*,S.e_name
+    from complain C,student S
+    where C.userId=S.id
+      <if test="userName != null and userName!=''">
+        AND S.e_name like CONCAT('%',#{userName},'%')
+      </if>
+      <if test="complainSubject != null and complainSubject!=''">
+        AND C.complain_subject like CONCAT('%',#{complainSubject},'%')
+      </if>
+
+  </select>
+
+  <insert id="insert" parameterType="com.gjl.weixin.entity.Complain" >
+    insert into complain ( userId, complain_time,
+      complain_subject, complain_reason, complain_video
+      )
+    values (#{userId,jdbcType=INTEGER}, #{complainTime,jdbcType=DATE},
+      #{complainSubject,jdbcType=VARCHAR}, #{complainReason,jdbcType=VARCHAR}, #{complainVideo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjl.weixin.entity.Complain" >
+    insert into complain
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="complainTime != null" >
+        complain_time,
+      </if>
+      <if test="complainSubject != null" >
+        complain_subject,
+      </if>
+      <if test="complainReason != null" >
+        complain_reason,
+      </if>
+      <if test="complainVideo != null" >
+        complain_video,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="complainTime != null" >
+        #{complainTime,jdbcType=DATE},
+      </if>
+      <if test="complainSubject != null" >
+        #{complainSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="complainReason != null" >
+        #{complainReason,jdbcType=VARCHAR},
+      </if>
+      <if test="complainVideo != null" >
+        #{complainVideo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

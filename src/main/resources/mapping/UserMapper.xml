@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjl.weixin.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.gjl.weixin.entity.User">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+  </resultMap>
+
+    <select id="findUserById" resultMap="BaseResultMap">
+        select * from user where id = #{id}
+    </select>
+  <insert id="insert" parameterType="com.gjl.weixin.entity.User">
+    insert into user (id, status, create_time, 
+      login_name, password, phone
+      )
+    values (#{id,jdbcType=BIGINT}, #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gjl.weixin.entity.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="loginName != null">
+        login_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="login" resultMap="BaseResultMap">
+    select * from user where login_name = #{userName} and password = #{password}
+  </select>
+
+  <select id="findAll" resultMap="BaseResultMap">
+    select * from user
+  </select>
+
+  <select id="findAllByCondition" resultMap="BaseResultMap">
+    select * from user
+    <where>
+      <if test="loginName != null and loginName!=''">
+        AND login_name like CONCAT('%',#{loginName},'%')
+      </if>
+
+    </where>
+  </select>
+
+  <update id="save">
+    update user
+    <trim prefix="set" suffixOverrides=",">
+      <if test="status!=null">status=#{status},</if>
+      <if test="password!=null">password=#{password},</if>
+      <if test="phone!=null">phone=#{phone},</if>
+    </trim>
+    WHERE id=#{id}
+  </update>
+</mapper>
